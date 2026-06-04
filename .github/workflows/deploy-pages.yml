@@ -43,7 +43,7 @@ jobs:
       - name: Build
         run: |
           pnpm exec vue-tsc --noEmit -p tsconfig.json
-          pnpm exec vite build --base "${{ steps.pages.outputs.base_path }}"
+          pnpm exec vite build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
