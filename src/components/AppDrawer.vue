@@ -2,35 +2,17 @@
   <Teleport :to="teleportTo">
     <div :class="rootClass">
       <Transition name="app-drawer-fade">
-        <div
-          v-if="modelValue"
-          class="app-drawer__overlay"
-          :style="overlayStyle"
-          @click="handleOverlayClick"
-        />
+        <div v-if="modelValue" class="app-drawer__overlay" :style="overlayStyle" @click="handleOverlayClick" />
       </Transition>
 
       <Transition :name="transitionName">
-        <aside
-          v-if="modelValue"
-          :id="panelId"
-          ref="panelRef"
-          role="dialog"
-          aria-modal="true"
-          :aria-label="ariaLabel"
-          tabindex="-1"
-          class="app-drawer__panel"
-          :class="[sideClass, panelClass]"
-          :style="panelStyle"
-        >
+        <aside v-if="modelValue" :id="panelId" ref="panelRef" role="dialog" aria-modal="true" :aria-label="ariaLabel"
+          tabindex="-1" class="app-drawer__panel" :class="[sideClass, panelClass]" :style="panelStyle">
           <div v-if="$slots.header" class="app-drawer__header">
             <slot name="header" :close="closeDrawer" />
           </div>
 
-          <div
-            class="app-drawer__body"
-            :class="hasChrome ? 'app-drawer__body--scroll' : bodyClass"
-          >
+          <div class="app-drawer__body" :class="hasChrome ? 'app-drawer__body--scroll' : bodyClass">
             <slot :close="closeDrawer" />
           </div>
 
@@ -209,3 +191,122 @@ onBeforeUnmount(() => {
   unlockBodyScroll();
 });
 </script>
+
+<style scoped>
+.app-drawer-root {
+  position: relative;
+}
+
+.app-drawer-root--mobile {
+  display: block;
+}
+
+.app-drawer__overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.58);
+  backdrop-filter: blur(2px);
+}
+
+.app-drawer__panel {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--ui-border);
+  color: var(--ui-text);
+  background: var(--ui-surface-panel);
+  box-shadow: 0 -24px 70px rgba(0, 0, 0, 0.46);
+}
+
+.app-drawer__panel:focus {
+  outline: none;
+}
+
+.app-drawer__panel--bottom {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  max-height: min(82vh, 620px);
+  border-radius: 18px 18px 0 0;
+}
+
+.app-drawer__panel--top {
+  top: 0;
+  right: 0;
+  left: 0;
+  max-height: min(82vh, 620px);
+  border-radius: 0 0 18px 18px;
+}
+
+.app-drawer__panel--left,
+.app-drawer__panel--right {
+  top: 0;
+  bottom: 0;
+  width: min(360px, calc(100vw - 20px));
+}
+
+.app-drawer__panel--left {
+  left: 0;
+  border-radius: 0 18px 18px 0;
+}
+
+.app-drawer__panel--right {
+  right: 0;
+  border-radius: 18px 0 0 18px;
+}
+
+.app-drawer__header,
+.app-drawer__footer {
+  flex: 0 0 auto;
+}
+
+.app-drawer__body {
+  min-height: 0;
+}
+
+.app-drawer__body--scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.app-drawer-fade-enter-active,
+.app-drawer-fade-leave-active,
+.app-drawer-bottom-enter-active,
+.app-drawer-bottom-leave-active,
+.app-drawer-top-enter-active,
+.app-drawer-top-leave-active,
+.app-drawer-left-enter-active,
+.app-drawer-left-leave-active,
+.app-drawer-right-enter-active,
+.app-drawer-right-leave-active {
+  transition:
+    opacity 180ms ease,
+    transform 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+.app-drawer-fade-enter-from,
+.app-drawer-fade-leave-to {
+  opacity: 0;
+}
+
+.app-drawer-bottom-enter-from,
+.app-drawer-bottom-leave-to {
+  transform: translateY(100%);
+}
+
+.app-drawer-top-enter-from,
+.app-drawer-top-leave-to {
+  transform: translateY(-100%);
+}
+
+.app-drawer-left-enter-from,
+.app-drawer-left-leave-to {
+  transform: translateX(-100%);
+}
+
+.app-drawer-right-enter-from,
+.app-drawer-right-leave-to {
+  transform: translateX(100%);
+}
+</style>
