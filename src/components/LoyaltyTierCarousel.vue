@@ -671,6 +671,7 @@ watch(
 
 <style scoped>
 .tier-carousel {
+  position: relative;
   padding: 12px 4px;
   border-radius: 14px;
   background:
@@ -684,6 +685,7 @@ watch(
   user-select: none;
   -webkit-user-select: none;
   transition: background 160ms linear;
+  overflow: clip;
 }
 
 .tier-carousel:active {
